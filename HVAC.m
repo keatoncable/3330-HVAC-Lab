@@ -70,8 +70,8 @@ QDData = [QD1 ; QD2 ; QD3];
 Qd12 = QDData(:,1);
 Qd23 = QDData(:,2);
 
-Cond_eff = abs(Qd23./Qout)
-Evap_eff = abs((Qin./Qd12).^-1)
+Cond_eff = abs(Qd23./Qout);
+Evap_eff = abs((Qin./Qd12).^-1);
 
 %% Statistics
 
