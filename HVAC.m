@@ -58,7 +58,7 @@ power_eff_comp = (mfr.*(h2-h1))/(Voltage*Amps);
 
 %% R22 Heat Calculation
 Qin = mfr.*(h1-h4);
-Qout = mfr.*(h2-h3);
+Qout = mfr.*(h3-h2);
 
 %% Condenser and Evaporator Efficiencies
 clc
@@ -70,8 +70,8 @@ QDData = [QD1 ; QD2 ; QD3];
 Qd12 = QDData(:,1);
 Qd23 = QDData(:,2);
 
-Cond_eff = Qd23./Qout
-Evap_eff = Qin./Qd12
+Cond_eff = abs(Qd23./Qout)
+Evap_eff = abs((Qin./Qd12).^-1)
 
 %% Statistics
 
