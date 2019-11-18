@@ -62,5 +62,5 @@ Qout = mfr.*(h2-h3);
 
 test = 'test';
 
-%% Statisitcs
+%% Statistics
 
