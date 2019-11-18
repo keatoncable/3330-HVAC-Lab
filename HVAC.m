@@ -75,3 +75,8 @@ Evap_eff = Qin./Qd12
 
 %% Statistics
 
+
+
+%% Print Values
+clc
+fprintf('Coefficient of Cooling Performance\t%d\n',beta)

@@ -68,10 +68,15 @@ QD3 = cell2mat(struct2cell(load('QD2.mat')))';
 
 QDData = [QD1 ; QD2 ; QD3];
 Qd12 = QDData(:,1);
-Qd
+Qd23 = QDData(:,2);
 
-Cond_eff = abs(QDData(:,1)./Qin)
-Evap_eff = Qout./QDData(:,2)
+Cond_eff = Qd23./Qout
+Evap_eff = Qin./Qd12
 
 %% Statistics
 
+
+
+%% Print Values
+clc
+fprintf('%s\tCoefficient of Cooling Performance\t%d\n',beta)
