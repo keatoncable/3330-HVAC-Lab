@@ -2,7 +2,7 @@ clear
 clc
 close all
 
-D = load('D2.txt');
+D = load('Data2.txt');
 %%
 A = .0254*20*.0254*23; %inlet area [m^2]
 Vel = mean(D(:,12)); %avg inlet velocity [m/s]
