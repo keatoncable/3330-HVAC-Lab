@@ -1,0 +1,208 @@
+
+<html>
+<head>
+  <title>Code Listing - R134a_sh_help.m</title>
+  
+  <style>
+  @font-face {
+  font-family: News Cycle;
+    src: url('includes/fonts/NewsCycle-Regular.eot');
+    src: local("News Cycle"), url('includes/fonts/NewsCycle-Regular.ttf');
+  }
+
+  @font-face {
+    font-family: Yanone Kaffeesatz;
+    src: url('includes/fonts/YanoneKaffeesatz-Regular.eot');
+    src: local("Yanone Kaffeesatz"), url('includes/fonts/YanoneKaffeesatz-Regular.ttf');
+  }
+
+  h3 {
+    color: #000;
+    padding: 0 0 0px 0;
+    font: normal 150% 'Yanone Kaffeesatz', arial, sans-serif;
+  }
+
+  </style>
+  <link rel="stylesheet" href="includes/js/fancybox/source/jquery.fancybox.css?v=2.1.4" type="text/css" media="screen" />
+  <link rel="stylesheet" href="includes/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+  <link rel="stylesheet" href="includes/js/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+
+  <!-- include core style and default theme for code syntax highlighting -->
+  <link href="includes/css/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="includes/css/shThemeDefault.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<h3>File: R134a_sh_help.m</h3>
+<script type="syntaxhighlighter" class="brush: matlab"><![CDATA[
+function R134a = R134a_sh(pressure, name2, value2, units) 
+% -------------------------------------------------------------------------
+% R134a_sh.m
+% -------------------------------------------------------------------------
+% Fundamentals of Thermodynamics
+% A function that uses two independent properties of superheated 
+% refrigerant 134a vapor (steam) and defines as the output a structure with
+% all relevant properties at the same state. Since the state is in the 
+% superheated region, a combination of pressure, along with any 
+% other valid property will fix the state.  
+% -------------------------------------------------------------------------
+% Syntax: R134a = R134a_sh(pressure, name2, value2, units) 
+% Inputs: pressure= the value of pressure at given state
+%         name2 = the name of the second property ('T','v','u','h' or 's')
+%         value2 = the value of the second property
+%         units = 1 (SI units) or 2 (English units)
+% Output: R134a = the structure with all relevant properties in relevant
+%         fields (T, p, v, u, h, s and x).  Though undefined (NaN), x is
+%         also included to be consistent with the saturated functions. 
+%
+% Valid properties and units:
+%         T - temperature (C or F)
+%         p - pressure (bar or lbf/in^2)
+%         v - specific volume (m^3/kg or ft^3/lb)
+%         h - specific enthalpy (kJ/kg or Btu/lb)
+%         u - specific internal energy (kJ/kg or Btu/lb)
+%         s - specific entropy (kJ/kg*K or Btu/lb*R)
+%         x - quality (mass of vapor as a unitless fraction between 0-1)
+% -------------------------------------------------------------------------
+% Notes: Use consistent SI or English units.
+% All specific properties defined per unit mass. 
+%--------------------------------------------------------------------------
+% Example
+% R134a = R134a_sh(10, 'T', 120, 1)
+% This example corresponds to superheated R134a at a pressure of 
+% 10 bar, and with a temperature of 120 degrees C.
+%--------------------------------------------------------------------------
+% Simon Ruiz, Undergraduate student, Mechanical Engineering 
+% Dr.Priya Goeser, Professor
+% Original: March 12th, 2013
+% Modified: July 21, 2016
+% Copyright (c) 2013 Simon Ruiz, All Rights Reserved.
+% Engineering Studies Program, Armstrong State University. 
+% -------------------------------------------------------------------------]]></script>
+
+  <!-- javascript at the bottom for fast page loading -->
+  <script type="text/javascript" src="includes/js/jquery.js"></script>
+  <script type="text/javascript" src="includes/js/jquery.easing-sooper.js"></script>
+  <script type="text/javascript" src="includes/js/jquery.sooperfish.js"></script>
+
+  <!-- modernizr enables HTML5 elements and feature detects -->
+  <script type="text/javascript" src="includes/js/modernizr-1.5.min.js"></script>
+
+  <!-- fancybox includes -->
+  <script type="text/javascript" src="includes/js/fancybox/source/jquery.fancybox.pack.js?v=2.1.4"></script>
+  <!-- Optionally add helpers - button, thumbnail and/or media -->
+  <script type="text/javascript" src="includes/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+  <script type="text/javascript" src="includes/js/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.5"></script>
+  <script type="text/javascript" src="includes/js/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+
+  <!-- code syntax highlighter -->
+  <script type="text/javascript" src="includes/js/shCore.js"></script>
+  <script type="text/javascript" src="includes/js/shBrushMatlab.js"></script>
+
+  <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41494852-1', 'armstrong.edu');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+    $(document).ready(function() {
+      // set up menus
+      $('ul.sf-menu').sooperfish({
+                dualColumn: 10, // if a submenu has this many items, 2 columns
+                tripleColumn: 20, // if a submenu has this many items, 3 columns
+                delay: 325,
+                speedShow: 400
+        });
+
+      // set up videos
+      $('.fancybox').fancybox();
+      $('.various').fancybox({
+                maxWidth        : 800,
+                maxHeight       : 600,
+                fitToView       : false,
+                width           : '80%',
+                height          : '80%',
+                autoSize        : false,
+                closeClick      : false,
+                openEffect      : 'none',
+                closeEffect     : 'none',
+                title           : 'Note: This video tutorial is best viewed in full screen and HD mode.'
+        });
+
+        $('.codelink').fancybox({
+                maxWidth        : 900,
+                maxHeight       : 800,
+                fitToView       : false,
+                width           : '95%',
+                height          : '90%',
+                autoSize        : false,
+                closeClick      : false,
+                openEffect      : 'none',
+                closeEffect     : 'none',
+                title           : 'Note: Copy this code into a MATLAB script to run.'
+        });
+
+        $('.codelink2').fancybox({
+                maxWidth        : 900,
+                maxHeight       : 800,
+                fitToView       : false,
+                width           : '95%',
+                height          : '90%',
+                autoSize        : false,
+                closeClick      : false,
+                openEffect      : 'none',
+                closeEffect     : 'none',
+        });
+
+
+      // PDF tracking
+      $("a[href$='.pdf']").each(function(index) {
+                fileLabel = $(this).attr('href');
+                fileOnClick = "ga('send', 'pageview', '" + fileLabel + "');";
+                $(this).attr("onClick", fileOnClick);
+        });
+
+      // MATLAB code file tracking
+      // Redirect code links to code viewer
+      $("a[href$='.m']").each(function(index) {
+                fileLabel = $(this).attr('href');
+                fileOnClick = "ga('send', 'pageview', '" + fileLabel + "');";
+                $(this).attr("onClick", fileOnClick);
+                fileCode = "code.html?file=" + fileLabel;
+                $(this).attr('href', fileCode);
+                fileClass = "fancybox.iframe ";
+		if (fileLabel =="matlabprograms/water_sh_help.m" || 
+			fileLabel =="matlabprograms/water_sat_help.m" || 
+			fileLabel =="matlabprograms/R22_sh_help.m" || 
+			fileLabel =="matlabprograms/R22_sat_help.m" || 
+			fileLabel =="matlabprograms/R134a_sh_help.m" ||
+			fileLabel =="matlabprograms/R134a_sat_help.m" ||
+			fileLabel =="matlabprograms/ammonia_sh_help.m" ||
+			fileLabel =="matlabprograms/ammonia_sat_help.m" ||
+			fileLabel =="matlabprograms/propane_sh_help.m" ||
+			fileLabel =="matlabprograms/propane_sat_help.m" ||
+			fileLabel =="matlabprograms/ism_help.m" ||
+			fileLabel =="matlabprograms/igm_air_help.m" ||
+			fileLabel =="matlabprograms/igm_specific_heats_help.m" ||
+			fileLabel =="matlabprograms/igm_isentropic_air_help.m" ||
+			fileLabel =="matlabprograms/igm_isentropic_specific_heats_help.m" 
+		    ) { 
+                	fileClass += "codelink2";
+		} else {
+			fileClass += "codelink";
+		}
+		$(this).attr('class', fileClass);
+        });
+
+       SyntaxHighlighter.all();
+    });
+  </script>
+
+</body>
+</html>
