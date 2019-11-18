@@ -34,13 +34,14 @@ state4 = zeros(3,8);
 TCtest = [Averages(:,11) Averages(:,8) Averages(:,9)]
 Ptest = [Const(:,3) Const(:,1) Const(:,2)]
 stest = [];
+
 for i=1:3
     for j = 1:3
     
     statest = cell2mat(struct2cell(R22_sh(Ptest(j,i),'T',TCtest(j,i),1)))';
     
-    if isnan(statest(5)==1)
-        stest(j,i) = "Saturated";
+    if isnan(statest(5)) == 1
+        stest{j,i} = "Saturated";
     else
         stest{j,i} = "Superheated";
     end
