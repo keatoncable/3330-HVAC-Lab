@@ -43,7 +43,7 @@ for i=1:3
         catch
             statest = 0;
         end
-    
+
         if statest == 0
             stest{j,i} = "Saturated";
         else
@@ -73,15 +73,14 @@ v4 = state4(:,3);
 
 %% Efficiencies 
 mfr = Vol_rate./v3;
-beta = (h1-h4)./(h2-h1);
-isen_eff_comp = (h2s-h1)./(h2-h1);
-power_eff_comp = (mfr.*(h2-h1))/(Voltage*Amps)*1000;
+beta = (h1-h4)./(h2-h1)
+isen_eff_comp = (h2s-h1)./(h2-h1)
+power_eff_comp = (mfr.*(h2-h1))/(Voltage*Amps)*1000
 %% R22 Heat Calculation
-Qin = mfr.*(h1-h4);
-Qout = mfr.*(h3-h2);
+Qin = mfr.*(h1-h4)
+Qout = mfr.*(h3-h2)
 
 %% Condenser and Evaporator Efficiencies
-clc
 QD1 = cell2mat(struct2cell(load('QD1.mat')))';
 QD2 = cell2mat(struct2cell(load('QD2.mat')))';
 QD3 = cell2mat(struct2cell(load('QD2.mat')))';
@@ -90,13 +89,12 @@ QDData = [QD1 ; QD2 ; QD3];
 Qd12 = QDData(:,1);
 Qd23 = QDData(:,2);
 
-Cond_eff = abs(Qd23./Qout);
-Evap_eff = abs((Qin./Qd12).^-1);
+Cond_eff = abs(Qd23./Qout)
+Evap_eff = abs((Qin./Qd12).^-1)
 
 %% Statistics
 
 
 
 %% Print Values
-clc
 fprintf('Coefficient of Cooling Performance\t%d\n',beta)
