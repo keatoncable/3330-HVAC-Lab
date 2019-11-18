@@ -32,6 +32,22 @@ state2s = zeros(3,7);
 state3 = zeros(3,8);
 state4 = zeros(3,8);
 
+TCtest = [Averages(:,11) Averages(:,8) Averages(:,9)]
+Ptest = [Const(:,3) Const(:,1) Const(:,2)]
+stest = [];
+for i=1:3
+    for j = 1:3
+    
+    statest = cell2mat(struct2cell(R22_sh(Ptest(j,i),'T',TCtest(j,i),1)))';
+    
+    if isnan(statest(5)==1)
+        stest(j,i) = "Saturated";
+    else
+        stest{j,i} = "Superheated";
+    end
+    end
+end
+
 for i = 1:3
     state1(i,:) = cell2mat(struct2cell(R22_sh(Const(i,3),'T',Averages(i,11),1)))';
     state2(i,:) = cell2mat(struct2cell(R22_sh(Const(i,1),'T',Averages(i,8),1)))';
@@ -58,7 +74,25 @@ isen_eff_comp = (h2s-h1)./(h2-h1);
 power_eff_comp = (mfr.*(h2-h1))/(Voltage*Amps)*1000;
 %% R22 Heat Calculation
 Qin = mfr.*(h1-h4);
-Qout = mfr.*(h2-h3);
+Qout = mfr.*(h3-h2);
+
+%% Condenser and Evaporator Efficiencies
+clc
+QD1 = cell2mat(struct2cell(load('QD1.mat')))';
+QD2 = cell2mat(struct2cell(load('QD2.mat')))';
+QD3 = cell2mat(struct2cell(load('QD2.mat')))';
+
+QDData = [QD1 ; QD2 ; QD3];
+Qd12 = QDData(:,1);
+Qd23 = QDData(:,2);
+
+Cond_eff = abs(Qd23./Qout);
+Evap_eff = abs((Qin./Qd12).^-1);
 
 %% Statistics
 
+
+
+%% Print Values
+clc
+fprintf('Coefficient of Cooling Performance\t%d\n',beta)
