@@ -60,7 +60,5 @@ power_eff_comp = (mfr.*(h2-h1))/(Voltage*Amps);
 Qin = mfr.*(h1-h4);
 Qout = mfr.*(h2-h3);
 
-test = 'test';
-test2 = 'testagain';
 %% Statistics
 
