@@ -61,7 +61,5 @@ Qin = mfr.*(h1-h4);
 Qout = mfr.*(h2-h3);
 
 test = 'test';
-testagain = 't2';
-t3 = ['ht'];
 %% Statistics
 
