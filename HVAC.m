@@ -37,9 +37,9 @@ stest = [];
 for i=1:3
     for j = 1:3
     
-    statest = cell2mat(struct2cell(R22_sh(Ptest(j,i),'T',TCtest(j,i),1)))'
+    statest = cell2mat(struct2cell(R22_sh(Ptest(j,i),'T',TCtest(j,i),1)))';
     
-    if isnan(statest(5))
+    if isnan(statest(5)==1)
         stest(j,i) = "Saturated";
     else
         stest{j,i} = "Superheated";
