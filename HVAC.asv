@@ -68,10 +68,10 @@ QD3 = cell2mat(struct2cell(load('QD2.mat')))';
 
 QDData = [QD1 ; QD2 ; QD3];
 Qd12 = QDData(:,1);
-Qd23 = QDData(:,2);
+Qd
 
-Cond_eff = Qd23./Qout
-Evap_eff = Qin./Qd12
+Cond_eff = abs(QDData(:,1)./Qin)
+Evap_eff = Qout./QDData(:,2)
 
 %% Statistics
 
