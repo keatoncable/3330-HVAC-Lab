@@ -45,9 +45,9 @@ for i=1:3
         end
 
         if statest == 0
-            stest{j,i} = "Saturated";
+            stest{j,i} = 'Saturated';
         else
-            stest{j,i} = "Superheated";
+            stest{j,i} = 'Superheated';
         end
     end
 end
