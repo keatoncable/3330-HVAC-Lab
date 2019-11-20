@@ -142,6 +142,122 @@ Nint_Vel = Nint;
 TCdiff = [abs(N_TC1 - Nint_TC) 1-abs(N_TC1/Nint_TC)];
 RCdiff = [abs(N_RC1 - Nint_RC) 1-abs(N_RC1/Nint_RC)];
 Veldiff = [abs(N_Vels - Nint_Vel) abs(N_Vels/Nint_Vel)];
+
+%% Uncertainty
+% % Upper Bound Uncertainty
+state1 = zeros(3,8);
+state2 = zeros(3,7);
+state2s = zeros(3,7);
+state3 = zeros(3,8);
+state4 = zeros(3,8);
+
+Averages2=[Averages(:,1), Averages(:,2), Averages(:,3), Averages(:,4), Averages(:,5)+.5, Averages(:,6)+.5, Averages(:,7)+.5, Averages(:,8)+.5, Averages(:,9)+.5, Averages(:,10)+.5, Averages(:,11)+.5, Averages(:,12), Averages(:,13)];
+Const2=[Const(:,1)+0.344738,Const(:,2)+0.344738,Const(:,3)+0.344738,Const(:,4)];
+
+for i = 1:3
+    state1(i,:) = cell2mat(struct2cell(R22_sat('T',Averages2(i,11),'x',1,1)))';
+    state2(i,:) = cell2mat(struct2cell(R22_sh(Const2(i,1),'T',Averages2(i,8),1)))';
+    state2s(i,:) = cell2mat(struct2cell(R22_sh(Const2(i,1),'s',state1(i,6),1)))';
+    state3(i,:) = cell2mat(struct2cell(R22_sat('p',Const2(i,2),'x',0,1)))';
+    state4(i,:) = cell2mat(struct2cell(R22_sat('T',Averages2(i,10),'h',state3(i,5),1)))';
+end
+
+h1up = state1(:,5)
+h2up = state2(:,5)
+h2sup = state2s(:,5)
+h3up = state3(:,5)
+h4up = state4(:,5)
+
+v1up = state1(:,3);
+v2up = state2(:,3);
+v3up = state3(:,3);
+v4up = state4(:,3);
+
+% % Lower Bound Uncertainty
+state1 = zeros(3,8);
+state2 = zeros(3,7);
+state2s = zeros(3,7);
+state3 = zeros(3,8);
+state4 = zeros(3,8);
+
+Averages3=[Averages(:,1), Averages(:,2), Averages(:,3), Averages(:,4), Averages(:,5)-.5, Averages(:,6)-.5, Averages(:,7)-.5, Averages(:,8)-.5, Averages(:,9)-.5, Averages(:,10)-.5, Averages(:,11)-.5, Averages(:,12), Averages(:,13)];
+Const3=[Const(:,1)-0.344738,Const(:,2)-0.344738,Const(:,3)-0.344738,Const(:,4)];
+
+for i = 1:3
+    state1(i,:) = cell2mat(struct2cell(R22_sat('T',Averages3(i,11),'x',1,1)))';
+    state2(i,:) = cell2mat(struct2cell(R22_sh(Const3(i,1),'T',Averages3(i,8),1)))';
+    state2s(i,:) = cell2mat(struct2cell(R22_sh(Const3(i,1),'s',state1(i,6),1)))';
+    state3(i,:) = cell2mat(struct2cell(R22_sat('p',Const3(i,2),'x',0,1)))';
+    state4(i,:) = cell2mat(struct2cell(R22_sat('T',Averages2(i,10),'h',state3(i,5),1)))';
+end
+
+h1low = state1(:,5)
+h2low = state2(:,5)
+h2slow = state2s(:,5)
+h3low = state3(:,5)
+h4low = state4(:,5)
+
+v1low = state1(:,3);
+v2low = state2(:,3);
+v3low = state3(:,3);
+v4low = state4(:,3);
+
+% % Total Uncertainty
+uh1=(h1up-h1low)/2;
+uh2=(h2up-h2low)/2;
+uh2s=(h2sup-h2slow)/2;
+uh3=(h3up-h3low)/2;
+uh4=(h4up-h4low)/2;
+mfr = Vol_rate./v3;
+uV=0.5;
+uI=0.05;
+uVolrate=0.0005;
+uv3=(v3up-v3low)/2;
+mfrup=(Vol_rate+uVolrate)./(v3up);
+mfrlow=(Vol_rate-uVolrate)./(v3low);
+
+ubeta1a = (h1up-h4)./(h2-h1up)-beta;
+ubeta1b = (h1low-h4)./(h2-h1low)-beta;
+ubeta2a = (h1-h4up)./(h2-h1)-beta;
+ubeta2b = (h1-h4low)./(h2-h1)-beta;
+ubeta3a = (h1-h4)./(h2up-h1)-beta;
+ubeta3b = (h1-h4)./(h2low-h1)-beta;
+
+ubeta1=(ubeta1a-ubeta1b)/2;
+ubeta2=(ubeta2a-ubeta2b)/2;
+ubeta3=(ubeta3a-ubeta3b)/2;
+ubeta=sqrt(ubeta1.^2+ubeta2.^2+ubeta3.^2)
+
+uisen_eff_comp1a = (h2sup-h1)./(h2-h1)-isen_eff_comp;
+uisen_eff_comp1b = (h2slow-h1)./(h2-h1)-isen_eff_comp;
+uisen_eff_comp2a = (h2s-h1up)./(h2-h1up)-isen_eff_comp;
+uisen_eff_comp2b = (h2s-h1low)./(h2-h1low)-isen_eff_comp;
+uisen_eff_comp3a = (h2s-h1)./(h2up-h1)-isen_eff_comp;
+uisen_eff_comp3b = (h2s-h1)./(h2low-h1)-isen_eff_comp;
+
+uisen_eff_comp1 = (uisen_eff_comp1a+uisen_eff_comp1b)/2;
+uisen_eff_comp2= (uisen_eff_comp2a+uisen_eff_comp2b)/2;
+uisen_eff_comp3= (uisen_eff_comp3a+uisen_eff_comp3b)/2;
+uisen_eff_comp=sqrt(uisen_eff_comp1.^2+uisen_eff_comp2.^2+uisen_eff_comp3.^2)
+
+power_eff_comp1a = (mfrup.*(h2-h1))/(Voltage*Amps)-power_eff_comp;
+power_eff_comp1b = (mfrlow.*(h2-h1))/(Voltage*Amps)-power_eff_comp;
+power_eff_comp2a = (mfr.*(h2up-h1))/(Voltage*Amps)-power_eff_comp;
+power_eff_comp2b = (mfr.*(h2low-h1))/(Voltage*Amps)-power_eff_comp;
+power_eff_comp3a = (mfr.*(h2-h1up))/(Voltage*Amps)-power_eff_comp;
+power_eff_comp3b = (mfr.*(h2-h1low))/(Voltage*Amps)-power_eff_comp;
+power_eff_comp4a = (mfr.*(h2-h1))/((Voltage+uV)*Amps)-power_eff_comp;
+power_eff_comp4b = (mfr.*(h2-h1))/((Voltage-uV)*Amps)-power_eff_comp;
+power_eff_comp5a = (mfr.*(h2-h1))/(Voltage*(Amps+uI))-power_eff_comp;
+power_eff_comp5b = (mfr.*(h2-h1))/(Voltage*(Amps-uI))-power_eff_comp;
+
+power_eff_comp1 = (power_eff_comp1a+power_eff_comp1b)/2;
+power_eff_comp2 = (power_eff_comp2a+power_eff_comp2b)/2;
+power_eff_comp3 = (power_eff_comp3a+power_eff_comp3b)/2;
+power_eff_comp4 = (power_eff_comp4a+power_eff_comp4b)/2;
+power_eff_comp5 = (power_eff_comp5a+power_eff_comp5b)/2;
+upower_eff_comp=sqrt(power_eff_comp1.^2+power_eff_comp2.^2+power_eff_comp3.^2+power_eff_comp4.^2+power_eff_comp5.^2)
+
 %% Tables
 performance = {'' 'Coefficient of Cooling Performance' 'Isentropic Compressor Efficiency' 'Power Compressor Efficiency' 'Evaporator Efficiency' 'Condenser Efficiency';
                 'Day 2' beta(2) isen_eff_comp(2) power_eff_comp(2) Evap_eff(2) Cond_eff(2);
