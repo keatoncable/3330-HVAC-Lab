@@ -8,9 +8,10 @@ Data3 = load('Data3.txt');
 %% Constants
 %P1(1) P2(2) P4(3) Flowrate R22(4)   psi    gal/min
 ValueCorrection = [(0.00689476 * ones(1,3)*10) (6.306*10^(-5))];
-Day1Const = [264 183 51 1.437].* ValueCorrection;
-Day2Const = [268 185 52 1.461].* ValueCorrection;
-Day3Const = [265 186 51 1.472833].* ValueCorrection;
+AtmosphericCorrection = [(1.01325*ones(1,3)), 0];
+Day1Const = [264 183 51 1.437].* ValueCorrection + AtmosphericCorrection;
+Day2Const = [268 185 52 1.461].* ValueCorrection + AtmosphericCorrection;
+Day3Const = [265 186 51 1.472833].* ValueCorrection + AtmosphericCorrection;
 Const = [Day1Const ; Day2Const ; Day3Const];
 Vol_rate = Const(:,4);
 Amps = 26.7;
@@ -25,17 +26,37 @@ for n = 1:length(Data1(1,:))
 end
 
 %% Calculating H-S Values
-state1 = zeros(3,8);
+state1 = zeros(3,7);
 state2 = zeros(3,7);
 state2s = zeros(3,7);
 state3 = zeros(3,8);
 state4 = zeros(3,8);
 
+TCtest = [Averages(:,11) Averages(:,8) Averages(:,9)];
+Ptest = [Const(:,3) Const(:,1) Const(:,2)];
+stest = [];
+
+for i=1:3
+    for j = 1:3
+        try
+            statest = cell2mat(struct2cell(R22_sh(Ptest(j,i),'T',TCtest(j,i),1)))';
+        catch
+            statest = 0;
+        end
+
+        if statest == 0
+            stest{j,i} = "Saturated";
+        else
+            stest{j,i} = "Superheated";
+        end
+    end
+end
+
 for i = 1:3
-    state1(i,:) = cell2mat(struct2cell(R22_sat('T',Averages(i,11),'x',1,1)))';
+    state1(i,:) = cell2mat(struct2cell(R22_sh(Const(i,3),'T',Averages(i,11),1)))';
     state2(i,:) = cell2mat(struct2cell(R22_sh(Const(i,1),'T',Averages(i,8),1)))';
     state2s(i,:) = cell2mat(struct2cell(R22_sh(Const(i,1),'s',state1(i,6),1)))';
-    state3(i,:) = cell2mat(struct2cell(R22_sat('p',Const(i,2),'x',0,1)))';
+    state3(i,:) = cell2mat(struct2cell(R22_sat('p', Const(i,2),'x', 0,1)))';
     state4(i,:) = cell2mat(struct2cell(R22_sat('T',Averages(i,10),'h',state3(i,5),1)))';
 end
 
@@ -52,15 +73,28 @@ v4 = state4(:,3);
 
 %% Efficiencies 
 mfr = Vol_rate./v3;
-beta = (h1-h4)./(h2-h1);
-isen_eff_comp = (h2s-h1)./(h2-h1);
-power_eff_comp = (mfr.*(h2-h1))/(Voltage*Amps);
-
+beta = (h1-h4)./(h2-h1)
+isen_eff_comp = (h2s-h1)./(h2-h1)
+power_eff_comp = (mfr.*(h2-h1))/(Voltage*Amps)*1000
 %% R22 Heat Calculation
-Qin = mfr.*(h1-h4);
-Qout = mfr.*(h2-h3);
+Qin = mfr.*(h1-h4)
+Qout = mfr.*(h3-h2)
 
-test = 'test';
-test2 = 'testagain';
+%% Condenser and Evaporator Efficiencies
+QD1 = cell2mat(struct2cell(load('QD1.mat')))';
+QD2 = cell2mat(struct2cell(load('QD2.mat')))';
+QD3 = cell2mat(struct2cell(load('QD2.mat')))';
+
+QDData = [QD1 ; QD2 ; QD3];
+Qd12 = QDData(:,1);
+Qd23 = QDData(:,2);
+
+Cond_eff = abs(Qd23./Qout)
+Evap_eff = abs((Qin./Qd12).^-1)
+
 %% Statistics
 
+
+
+%% Print Values
+fprintf('Coefficient of Cooling Performance\t%d\n',beta)
