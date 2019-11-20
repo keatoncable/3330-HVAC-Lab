@@ -102,14 +102,14 @@ Rs1 = std(RC1s);
 Vs1 = std(Vels);
 d = 0.5;
 invt = tinv(0.95,N-1);
-CI_TC1 = tinv(0.95,N-1)*Ts1/sqrt(N)
-CI_RC1 = tinv(0.95,N-1)*Rs1/sqrt(N)
-CI_Vels = tinv(0.95,N-1)*Vs1/sqrt(N)
+CI_TC1 = tinv(0.95,N-1)*Ts1/sqrt(N);
+CI_RC1 = tinv(0.95,N-1)*Rs1/sqrt(N);
+CI_Vels = tinv(0.95,N-1)*Vs1/sqrt(N);
 
 
-N_TC1 = ((invt*Ts1)/d)^2
-N_RC1 = ((invt*Rs1)/d)^2
-N_Vels = ((invt*Vs1)/d)^2
+N_TC1 = ((invt*Ts1)/d)^2;
+N_RC1 = ((invt*Rs1)/d)^2;
+N_Vels = ((invt*Vs1)/d)^2;
 
 Nint = 2;
 CI = 10000000;
@@ -139,8 +139,21 @@ while CI > 0.5002
 end
 Nint_Vel = Nint;
 
-TCdiff = [abs(N_TC1 - Nint_TC) 1-abs(N_TC1/Nint_TC)]
-RCdiff = [abs(N_RC1 - Nint_RC) 1-abs(N_RC1/Nint_RC)]
-Veldiff = [abs(N_Vels - Nint_Vel) abs(N_Vels/Nint_Vel)]
-%% Print Values
-fprintf('Coefficient of Cooling Performance\t%d\n',beta)
+TCdiff = [abs(N_TC1 - Nint_TC) 1-abs(N_TC1/Nint_TC)];
+RCdiff = [abs(N_RC1 - Nint_RC) 1-abs(N_RC1/Nint_RC)];
+Veldiff = [abs(N_Vels - Nint_Vel) abs(N_Vels/Nint_Vel)];
+%% Tables
+performance = {'' 'Coefficient of Cooling Performance' 'Isentropic Compressor Efficiency' 'Power Compressor Efficiency' 'Evaporator Efficiency' 'Condenser Efficiency';
+                'Day 2' beta(2) isen_eff_comp(2) power_eff_comp(2) Evap_eff(2) Cond_eff(2);
+                'Day 3' beta(3) isen_eff_comp(3) power_eff_comp(3) Evap_eff(3) Cond_eff(3)};
+            
+ stats = {'' 'Number of Measurements Needed to Obtain CI of +/- 0.5';
+          'TC1' ceil(N_TC1);
+          'RC1' ceil(N_RC1);
+          'Velocity 1' ceil(N_Vels)};
+      
+xlswrite('Results.xlsx',performance,1)
+xlswrite('Results.xlsx',stats,2)
+
+
+
