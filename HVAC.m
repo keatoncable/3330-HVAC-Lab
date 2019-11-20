@@ -162,11 +162,11 @@ for i = 1:3
     state4(i,:) = cell2mat(struct2cell(R22_sat('T',Averages2(i,10),'h',state3(i,5),1)))';
 end
 
-h1up = state1(:,5)
-h2up = state2(:,5)
-h2sup = state2s(:,5)
-h3up = state3(:,5)
-h4up = state4(:,5)
+h1up = state1(:,5);
+h2up = state2(:,5);
+h2sup = state2s(:,5);
+h3up = state3(:,5);
+h4up = state4(:,5);
 
 v1up = state1(:,3);
 v2up = state2(:,3);
@@ -191,11 +191,11 @@ for i = 1:3
     state4(i,:) = cell2mat(struct2cell(R22_sat('T',Averages2(i,10),'h',state3(i,5),1)))';
 end
 
-h1low = state1(:,5)
-h2low = state2(:,5)
-h2slow = state2s(:,5)
-h3low = state3(:,5)
-h4low = state4(:,5)
+h1low = state1(:,5);
+h2low = state2(:,5);
+h2slow = state2s(:,5);
+h3low = state3(:,5);
+h4low = state4(:,5);
 
 v1low = state1(:,3);
 v2low = state2(:,3);
@@ -215,6 +215,10 @@ uVolrate=0.0005;
 uv3=(v3up-v3low)/2;
 mfrup=(Vol_rate+uVolrate)./(v3up);
 mfrlow=(Vol_rate-uVolrate)./(v3low);
+Qinup=mfrup.*(h1up-h4up);
+Qinlow=mfrlow.*(h1low-h4low);
+Qoutup=mfrup.*(h3up-h2up);
+Qoutlow=mfrlow.*(h3low-h2low);
 
 ubeta1a = (h1up-h4)./(h2-h1up)-beta;
 ubeta1b = (h1low-h4)./(h2-h1low)-beta;
@@ -226,7 +230,7 @@ ubeta3b = (h1-h4)./(h2low-h1)-beta;
 ubeta1=(ubeta1a-ubeta1b)/2;
 ubeta2=(ubeta2a-ubeta2b)/2;
 ubeta3=(ubeta3a-ubeta3b)/2;
-ubeta=sqrt(ubeta1.^2+ubeta2.^2+ubeta3.^2)
+ubeta=sqrt(ubeta1.^2+ubeta2.^2+ubeta3.^2);
 
 uisen_eff_comp1a = (h2sup-h1)./(h2-h1)-isen_eff_comp;
 uisen_eff_comp1b = (h2slow-h1)./(h2-h1)-isen_eff_comp;
@@ -238,7 +242,7 @@ uisen_eff_comp3b = (h2s-h1)./(h2low-h1)-isen_eff_comp;
 uisen_eff_comp1 = (uisen_eff_comp1a+uisen_eff_comp1b)/2;
 uisen_eff_comp2= (uisen_eff_comp2a+uisen_eff_comp2b)/2;
 uisen_eff_comp3= (uisen_eff_comp3a+uisen_eff_comp3b)/2;
-uisen_eff_comp=sqrt(uisen_eff_comp1.^2+uisen_eff_comp2.^2+uisen_eff_comp3.^2)
+uisen_eff_comp=sqrt(uisen_eff_comp1.^2+uisen_eff_comp2.^2+uisen_eff_comp3.^2);
 
 power_eff_comp1a = (mfrup.*(h2-h1))/(Voltage*Amps)-power_eff_comp;
 power_eff_comp1b = (mfrlow.*(h2-h1))/(Voltage*Amps)-power_eff_comp;
@@ -256,8 +260,28 @@ power_eff_comp2 = (power_eff_comp2a+power_eff_comp2b)/2;
 power_eff_comp3 = (power_eff_comp3a+power_eff_comp3b)/2;
 power_eff_comp4 = (power_eff_comp4a+power_eff_comp4b)/2;
 power_eff_comp5 = (power_eff_comp5a+power_eff_comp5b)/2;
-upower_eff_comp=sqrt(power_eff_comp1.^2+power_eff_comp2.^2+power_eff_comp3.^2+power_eff_comp4.^2+power_eff_comp5.^2)
+upower_eff_comp=sqrt(power_eff_comp1.^2+power_eff_comp2.^2+power_eff_comp3.^2+power_eff_comp4.^2+power_eff_comp5.^2);
 
+
+Cond_eff1a = abs(22.6036./Qout)-Cond_eff; %upper bound Q23 day 2
+Cond_eff1b = abs(22.6804./Qout)-Cond_eff; %lower bound Q23 day 2
+Cond_eff2a = abs(Qd23./Qoutup)-Cond_eff;
+Cond_eff2b = abs(Qd23./Qoutlow)-Cond_eff;
+
+Cond_eff1 = (Cond_eff1a+Cond_eff1b)/2; 
+Cond_eff2 = (Cond_eff2a+Cond_eff2b)/2;
+uCond_eff = sqrt(Cond_eff1.^2+Cond_eff2.^2);
+
+Evap_eff1a = abs(-13.4341./Qin); %upper bound Q12 day 2
+Evap_eff1b = abs(-13.5087./Qin); %lower bound Q12 day 2
+Evap_eff2a = abs(Qd12./Qinup);
+Evap_eff2b = abs(Qd12./Qinlow);
+
+Evap_eff1 = (Evap_eff1a+Evap_eff1b)/2;
+Evap_eff2 = (Evap_eff2a+Evap_eff2b)/2;
+uEvap_eff = sqrt(Evap_eff1.^2+Evap_eff2.^2);
+
+uncertainty = [ubeta(2) uisen_eff_comp(2) upower_eff_comp(2) uCond_eff(2) uEvap_eff(2)] %uncertainties using day 2 data
 %% Tables
 performance = {'' 'Coefficient of Cooling Performance' 'Isentropic Compressor Efficiency' 'Power Compressor Efficiency' 'Evaporator Efficiency' 'Condenser Efficiency';
                 'Day 2' beta(2) isen_eff_comp(2) power_eff_comp(2) Evap_eff(2) Cond_eff(2);
