@@ -259,19 +259,20 @@ power_eff_comp5 = (power_eff_comp5a+power_eff_comp5b)/2;
 upower_eff_comp=sqrt(power_eff_comp1.^2+power_eff_comp2.^2+power_eff_comp3.^2+power_eff_comp4.^2+power_eff_comp5.^2)
 
 %% Tables
-performance = {'' 'Coefficient of Cooling Performance' 'Isentropic Compressor Efficiency' 'Power Compressor Efficiency' 'Evaporator Efficiency' 'Condenser Efficiency';
+performance = {'' 'B' 'Isentropic Compressor' 'Power Compressor' 'Evaporator' 'Condenser';
                 'Day 2' beta(2) isen_eff_comp(2) power_eff_comp(2) Evap_eff(2) Cond_eff(2);
                 'Day 3' beta(3) isen_eff_comp(3) power_eff_comp(3) Evap_eff(3) Cond_eff(3)};
             
- stats = {'' 'Number of Measurements Needed to Obtain CI of +/- 0.5';
+ stats = {'' 'Number of Measurements';
           'TC1' ceil(N_TC1);
           'RC1' ceil(N_RC1);
           'Velocity 1' ceil(N_Vels)};
+      
  uncert = {'test'};
  
-xlswrite('Results.xlsx',performance,1)
-xlswrite('Results.xlsx',stats,2)
-xlswrite('Results.xlsx',uncert,3)
+xlswrite('Perf.xlsx',performance,1)
+xlswrite('Stats.xlsx',stats,1)
+xlswrite('Uncert.xlsx',uncert,1)
 
 
 
