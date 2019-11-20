@@ -93,8 +93,54 @@ Cond_eff = abs(Qd23./Qout)
 Evap_eff = abs((Qin./Qd12).^-1)
 
 %% Statistics
+TC1s = Data2(:,5); % [deg C]
+RC1s = Data2(:,2); % [%]
+Vels = Data2(:,12);% [m/s]
+N = length(TC1s);
+Ts1 = std(TC1s);
+Rs1 = std(RC1s);
+Vs1 = std(Vels);
+d = 0.5;
+invt = tinv(0.95,N-1);
+CI_TC1 = tinv(0.95,N-1)*Ts1/sqrt(N)
+CI_RC1 = tinv(0.95,N-1)*Rs1/sqrt(N)
+CI_Vels = tinv(0.95,N-1)*Vs1/sqrt(N)
 
 
+N_TC1 = ((invt*Ts1)/d)^2
+N_RC1 = ((invt*Rs1)/d)^2
+N_Vels = ((invt*Vs1)/d)^2
 
+Nint = 2;
+CI = 10000000;
+while CI > 0.5002
+    nu = Nint;
+    Nint = Nint + 1;
+    t = tinv(0.95,nu);
+    CI = t*Ts1/sqrt(Nint);
+end
+Nint_TC = Nint;
+Nint = 2;
+CI = 10000000;
+while CI > 0.5002
+    nu = Nint;
+    Nint = Nint + 1;
+    t = tinv(0.95,nu);
+    CI = t*Rs1/sqrt(Nint);
+end
+Nint_RC = Nint;
+Nint = 2;
+CI = 10000000;
+while CI > 0.5002
+    nu = Nint;
+    Nint = Nint + 1;
+    t = tinv(0.95,nu);
+    CI = t*Vs1/sqrt(Nint);
+end
+Nint_Vel = Nint;
+
+TCdiff = [abs(N_TC1 - Nint_TC) 1-abs(N_TC1/Nint_TC)]
+RCdiff = [abs(N_RC1 - Nint_RC) 1-abs(N_RC1/Nint_RC)]
+Veldiff = [abs(N_Vels - Nint_Vel) abs(N_Vels/Nint_Vel)]
 %% Print Values
 fprintf('Coefficient of Cooling Performance\t%d\n',beta)
