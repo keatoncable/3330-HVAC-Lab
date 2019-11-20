@@ -267,9 +267,11 @@ performance = {'' 'Coefficient of Cooling Performance' 'Isentropic Compressor Ef
           'TC1' ceil(N_TC1);
           'RC1' ceil(N_RC1);
           'Velocity 1' ceil(N_Vels)};
-      
+ uncert = {};
+ 
 xlswrite('Results.xlsx',performance,1)
 xlswrite('Results.xlsx',stats,2)
+xlswrite('Results.xlsx',uncert,3)
 
 
 
