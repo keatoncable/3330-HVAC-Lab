@@ -73,6 +73,7 @@ v4 = state4(:,3);
 
 %% Efficiencies 
 mfr = Vol_rate./v3;
+bmax = T
 beta = (h1-h4)./(h2-h1)
 isen_eff_comp = (h2s-h1)./(h2-h1)
 power_eff_comp = (mfr.*(h2-h1))/(Voltage*Amps)*1000
@@ -281,7 +282,8 @@ Evap_eff1 = (Evap_eff1a-Evap_eff1b)/2;
 Evap_eff2 = (Evap_eff2a-Evap_eff2b)/2;
 uEvap_eff = sqrt(Evap_eff1.^2+Evap_eff2.^2);
 
-uncertainty = [ubeta(2) uisen_eff_comp(2) upower_eff_comp(2) uCond_eff(2) uEvap_eff(2)] %uncertainties using day 2 data
+uncertainty = {ubeta(2) uisen_eff_comp(2) upower_eff_comp(2) uCond_eff(2) uEvap_eff(2)} %uncertainties using day 2 data
+labels = {'B Uncertainty' 'Isen. Compressor N Uncertainty' 'Power Compressor N Uncertainty' 'Condenser N Uncertainty' 'Evaporator N Uncertainty'}
 %% Tables
 performance = {'' 'B' 'Isentropic Compressor' 'Power Compressor' 'Evaporator' 'Condenser';
                 'Day 2' beta(2) isen_eff_comp(2) power_eff_comp(2) Evap_eff(2) Cond_eff(2);
@@ -292,7 +294,7 @@ performance = {'' 'B' 'Isentropic Compressor' 'Power Compressor' 'Evaporator' 'C
           'RC1' ceil(N_RC1);
           'Velocity 1' ceil(N_Vels)};
       
- uncert = {'test'};
+ uncert = [labels ; uncertainty];
  
 xlswrite('Perf.xlsx',performance,1)
 xlswrite('Stats.xlsx',stats,1)
