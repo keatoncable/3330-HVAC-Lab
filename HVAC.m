@@ -73,6 +73,7 @@ v4 = state4(:,3);
 
 %% Efficiencies 
 mfr = Vol_rate./v3;
+bmax = T
 beta = (h1-h4)./(h2-h1)
 isen_eff_comp = (h2s-h1)./(h2-h1)
 power_eff_comp = (mfr.*(h2-h1))/(Voltage*Amps)*1000
