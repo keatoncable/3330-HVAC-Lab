@@ -239,9 +239,9 @@ uisen_eff_comp2b = (h2s-h1low)./(h2-h1low)-isen_eff_comp;
 uisen_eff_comp3a = (h2s-h1)./(h2up-h1)-isen_eff_comp;
 uisen_eff_comp3b = (h2s-h1)./(h2low-h1)-isen_eff_comp;
 
-uisen_eff_comp1 = (uisen_eff_comp1a+uisen_eff_comp1b)/2;
-uisen_eff_comp2= (uisen_eff_comp2a+uisen_eff_comp2b)/2;
-uisen_eff_comp3= (uisen_eff_comp3a+uisen_eff_comp3b)/2;
+uisen_eff_comp1 = (uisen_eff_comp1a-uisen_eff_comp1b)/2;
+uisen_eff_comp2= (uisen_eff_comp2a-uisen_eff_comp2b)/2;
+uisen_eff_comp3= (uisen_eff_comp3a-uisen_eff_comp3b)/2;
 uisen_eff_comp=sqrt(uisen_eff_comp1.^2+uisen_eff_comp2.^2+uisen_eff_comp3.^2);
 
 power_eff_comp1a = (mfrup.*(h2-h1))/(Voltage*Amps)-power_eff_comp;
@@ -255,11 +255,11 @@ power_eff_comp4b = (mfr.*(h2-h1))/((Voltage-uV)*Amps)-power_eff_comp;
 power_eff_comp5a = (mfr.*(h2-h1))/(Voltage*(Amps+uI))-power_eff_comp;
 power_eff_comp5b = (mfr.*(h2-h1))/(Voltage*(Amps-uI))-power_eff_comp;
 
-power_eff_comp1 = (power_eff_comp1a+power_eff_comp1b)/2;
-power_eff_comp2 = (power_eff_comp2a+power_eff_comp2b)/2;
-power_eff_comp3 = (power_eff_comp3a+power_eff_comp3b)/2;
-power_eff_comp4 = (power_eff_comp4a+power_eff_comp4b)/2;
-power_eff_comp5 = (power_eff_comp5a+power_eff_comp5b)/2;
+power_eff_comp1 = (power_eff_comp1a-power_eff_comp1b)/2;
+power_eff_comp2 = (power_eff_comp2a-power_eff_comp2b)/2;
+power_eff_comp3 = (power_eff_comp3a-power_eff_comp3b)/2;
+power_eff_comp4 = (power_eff_comp4a-power_eff_comp4b)/2;
+power_eff_comp5 = (power_eff_comp5a-power_eff_comp5b)/2;
 upower_eff_comp=sqrt(power_eff_comp1.^2+power_eff_comp2.^2+power_eff_comp3.^2+power_eff_comp4.^2+power_eff_comp5.^2);
 
 
@@ -268,8 +268,8 @@ Cond_eff1b = abs(22.6804./Qout)-Cond_eff; %lower bound Q23 day 2
 Cond_eff2a = abs(Qd23./Qoutup)-Cond_eff;
 Cond_eff2b = abs(Qd23./Qoutlow)-Cond_eff;
 
-Cond_eff1 = (Cond_eff1a+Cond_eff1b)/2; 
-Cond_eff2 = (Cond_eff2a+Cond_eff2b)/2;
+Cond_eff1 = (Cond_eff1a-Cond_eff1b)/2; 
+Cond_eff2 = (Cond_eff2a-Cond_eff2b)/2;
 uCond_eff = sqrt(Cond_eff1.^2+Cond_eff2.^2);
 
 Evap_eff1a = abs(-13.4341./Qin); %upper bound Q12 day 2
@@ -277,8 +277,8 @@ Evap_eff1b = abs(-13.5087./Qin); %lower bound Q12 day 2
 Evap_eff2a = abs(Qd12./Qinup);
 Evap_eff2b = abs(Qd12./Qinlow);
 
-Evap_eff1 = (Evap_eff1a+Evap_eff1b)/2;
-Evap_eff2 = (Evap_eff2a+Evap_eff2b)/2;
+Evap_eff1 = (Evap_eff1a-Evap_eff1b)/2;
+Evap_eff2 = (Evap_eff2a-Evap_eff2b)/2;
 uEvap_eff = sqrt(Evap_eff1.^2+Evap_eff2.^2);
 
 uncertainty = [ubeta(2) uisen_eff_comp(2) upower_eff_comp(2) uCond_eff(2) uEvap_eff(2)] %uncertainties using day 2 data
