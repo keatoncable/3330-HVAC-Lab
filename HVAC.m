@@ -296,9 +296,9 @@ performance = {'' 'B' 'Isentropic Compressor' 'Power Compressor' 'Evaporator' 'C
       
  uncert = [labels ; uncertainty];
  
-xlswrite('Perf.xlsx',performance,1)
-xlswrite('Stats.xlsx',stats,1)
-xlswrite('Uncert.xlsx',uncert,1)
+%xlswrite('Perf.xlsx',performance,1)
+%xlswrite('Stats.xlsx',stats,1)
+%xlswrite('Uncert.xlsx',uncert,1)
 
 
 
