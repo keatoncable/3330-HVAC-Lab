@@ -80,3 +80,4 @@ Qdot12 = mdota*((ha2+w2*hv2)-(ha1+w1*hv1)+(w1-w2)*hw);
 Qdot23 = mdota*(ha3-ha2) + mdotv2*(hv3-hv2);
 
 save('QD2.mat','Qdot12','Qdot23')
+

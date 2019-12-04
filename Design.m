@@ -36,3 +36,7 @@ Qdot12 = -15.1777;
 mdota = (ha2+w2*hv2-ha1-w1*hv1+(w1-w2)*hw)/Qdot12;
 mdot = mdota*(w1+1);
 v = mdot/(rho1*A1);
+
+results = {'In/Out Temperature [K]' ,'Inlet RH [%]', 'Outlet RH [%]', 'Air Velocity [m/s]'; T1, H1, H3, v}
+writecell(results,'results.xlsx')
+
